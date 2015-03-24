@@ -1,9 +1,22 @@
+
 (load (spheres/net sack-server))
 (load (spheres/net/sack uri))
 (load (spheres/algorithm list))
 
 (define-structure route path f)
+(define-structure response code content-type content-body)
+
 (define routes '())
+
+(define HttpResponse
+  (lambda (content-type content-body)
+    (if
+     (equal? content-type "html")
+     (make-response 200 '(("Content-Type" . "text/html")) content-body)
+     (if
+      (equal? content-type "json")
+      (make-response 200 '(("Content-Type" . "application/json")) content-body)
+      '()))))
 
 (define route-register
   (lambda (path f)
@@ -19,15 +32,21 @@
 		((route-f (car rest)) env)
 		(recur (cdr rest))))))))
 
-(route-register "/hello"
-		(lambda (env)
-		  (print "Hello World")))
+
+;Registrar las rutas
+
+(route-register "/" (lambda (env)
+		      (HttpResponse "json" "{'name': 'Pablo Fernandez'}")))
+
+(route-register "/hello" (lambda (env)
+			   (HttpResponse "html" "<h1>Hello world</h1>")))
+
 
 (sack-start!
  (lambda (env)
-   (let ((ret #t))
-     (values 200
-	     '(("Content-Type" . "application/json"))
+   (let ((ret #t) (res (router (uri-path (env 'sack:uri)) env)))
+     (values (response-code res)
+	     (response-content-type res)
              (lambda ()
                (and
                 ret
@@ -36,12 +55,9 @@
                   (with-output-to-u8vector
                    (list char-encoding: 'UTF-8)
                    (lambda ()
-		     ;(write (env 'sack:uri))
-		     ;(print "{'name': 'Pablo Fernandez'}")
-		     ;(pp (uri-path (env 'sack:uri)))
-		     (router (uri-path (env 'sack:uri)) env)
+		     (print (response-content-body res))
 		     ))))))))
- port-number: 3000)
+ port-number: 3005)
 
 
 (thread-sleep! +inf.0)
