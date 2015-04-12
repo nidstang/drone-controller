@@ -3,6 +3,7 @@
 (load (spheres/net/sack uri))
 (load "router.scm")
 (load "http.scm")
+(load "gamsock/gamsock.o1")
 
 
 ;Registrar las rutas
@@ -16,6 +17,9 @@
 (route-register "/test" (lambda (env)
 			  (HttpResponse "html" "<h1>Test page</h1>")))
 
+;Rutas for Ajax with json response
+(route-register "/start" (lambda (env)
+			   (HttpResponse "json" "{'response': 'success'}")))
 
 (sack-start!
  (lambda (env)
