@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Drone controller BETA</title>
+
+	<script type='text/javascript'>
+		var ajax = new AjaxHelper('http://localhost:3005/api/');
+
+		$(document).on('ready', function(event) {
+			$('#start-button').on('click', function(event) {
+				event.preventDefault();
+				ajax.get('start', function() {
+					//Nothing for this time
+				},
+				function(response) {
+					console.log(response);
+					$('#events-sections').append('<p>' + response.response + '</p>');
+				})
+			})
+		});
+	</script>
+</head>
+<body>
+	<button id='start-button'>START</button>
+	<div id='events-sections'>
+
+	</div>
+</body>
+</html>

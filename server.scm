@@ -6,19 +6,20 @@
 (load "gamsock/gamsock.o1")
 
 
+
 ;Registrar las rutas
 
-(route-register "/" (lambda (env)
+(route-register "/ss" (lambda (env)
 		      (HttpResponse "json" "{'name': 'Pablo Fernandez'}")))
 
-(route-register "/hello" (lambda (env)
-			   (HttpResponse "html" "<h1>Hello</h1>")))
+(route-register "/" (lambda (env)
+		      (HttpResponse "html" "index.html")))
 
 (route-register "/test" (lambda (env)
 			  (HttpResponse "html" "<h1>Test page</h1>")))
 
 ;Rutas for Ajax with json response
-(route-register "/start" (lambda (env)
+(route-register "/api/start" (lambda (env)
 			   (HttpResponse "json" "{'response': 'success'}")))
 
 (sack-start!
