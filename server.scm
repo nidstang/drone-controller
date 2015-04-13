@@ -10,7 +10,7 @@
 ;Registrar las rutas
 
 (route-register "/ss" (lambda (env)
-		      (HttpResponse "json" "{'name': 'Pablo Fernandez'}")))
+		      (HttpResponse "json" "{\"name\": \"Pablo Fernandez\"}")))
 
 (route-register "/" (lambda (env)
 		      (HttpResponse "html" "index.html")))
@@ -30,7 +30,7 @@
 
 ;Rutas for Ajax with json response
 (route-register "/api/start" (lambda (env)
-			   (HttpResponse "json" "{'response': 'success'}")))
+			   (HttpResponse "json" "{\"response\": \"success\"}")))
 
 (sack-start!
  (lambda (env)
