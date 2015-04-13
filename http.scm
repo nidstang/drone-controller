@@ -1,6 +1,6 @@
 (define-structure response code content-type content-body)
 
-(define render-html-file
+(define render-static-file
   (lambda (filename)
     (list->string
      (call-with-input-file filename
@@ -15,8 +15,13 @@
   (lambda (content-type content-body)
     (if
      (equal? content-type "html")
-     (make-response 200 '(("Content-Type" . "text/html")) (render-html-file content-body))
+     (make-response 200 '(("Content-Type" . "text/html")) (render-static-file content-body))
      (if
       (equal? content-type "json")
       (make-response 200 '(("Content-Type" . "application/json")) content-body)
       '()))))
+
+
+(define HttpResponseJS
+  (lambda (filename)
+    (make-response 200 '(("Content-Type" . "text/javascript")) (render-static-file (string-append "js/" filename)))))

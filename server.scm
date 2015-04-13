@@ -18,6 +18,16 @@
 (route-register "/test" (lambda (env)
 			  (HttpResponse "html" "<h1>Test page</h1>")))
 
+
+;Register of static files
+(route-register "/js/jquery.js"
+		(lambda (env)
+		  (HttpResponseJS "jquery.js")))
+(route-register "/js/AjaxHelper.js"
+		(lambda (env)
+		  (HttpResponseJS "AjaxHelper.js")))
+
+
 ;Rutas for Ajax with json response
 (route-register "/api/start" (lambda (env)
 			   (HttpResponse "json" "{'response': 'success'}")))
