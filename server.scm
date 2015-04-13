@@ -31,7 +31,15 @@
 ;Rutas for Ajax with json response
 (route-register "/api/start" (lambda (env)
 			       (sendTo '#u8(1 1 1 1))
-			       (HttpResponse "json" "{\"response\": \"success\"}")))
+			       (HttpResponse "json" "{\"response\": \"success\", \"message\": \"Start drone\"}")))
+
+(route-register "/api/left" (lambda (env)
+			       ;(sendTo '#u8(1 1 1 1))
+			       (HttpResponse "json" "{\"response\": \"success\", \"message\": \"To left\"}")))
+
+(route-register "/api/right" (lambda (env)
+			       ;(sendTo '#u8(1 1 1 1))
+			       (HttpResponse "json" "{\"response\": \"success\", \"message\": \"To right\"}")))
 
 (sack-start!
  (lambda (env)
