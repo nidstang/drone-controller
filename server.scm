@@ -3,7 +3,7 @@
 (load (spheres/net/sack uri))
 (load "router.scm")
 (load "http.scm")
-(load "gamsock/gamsock.o1")
+(load "sockets.scm")
 
 
 
@@ -30,7 +30,8 @@
 
 ;Rutas for Ajax with json response
 (route-register "/api/start" (lambda (env)
-			   (HttpResponse "json" "{\"response\": \"success\"}")))
+			       (sendTo '#u8(1 1 1 1))
+			       (HttpResponse "json" "{\"response\": \"success\"}")))
 
 (sack-start!
  (lambda (env)
