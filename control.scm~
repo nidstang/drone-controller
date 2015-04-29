@@ -1,5 +1,0 @@
-(define seq 1)
-
-(define send-up
-  (lambda (speed)
-    (string-append "AT*PCMD=" (number->string (+ seq 1)) ",1,0,0," (number->string speed) ",0")))
