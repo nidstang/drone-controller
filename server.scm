@@ -3,7 +3,8 @@
 (load (spheres/net/sack uri))
 (load "router.scm")
 (load "http.scm")
-(load "sockets.scm")
+(load "ar-drone/atcommand.scm")
+(load "ar-drone/udp-control.scm")
 
 
 
@@ -14,6 +15,9 @@
 
 (route-register "/" (lambda (env)
 		      (HttpResponse "html" "index.html")))
+
+(route-register "/canvas" (lambda (env)
+		      (HttpResponse "html" "canvas.html")))
 
 (route-register "/test" (lambda (env)
 			  (HttpResponse "html" "<h1>Test page</h1>")))
@@ -29,17 +33,24 @@
 
 
 ;Rutas for Ajax with json response
-(route-register "/api/start" (lambda (env)
-			       (sendTo '#u8(1 1 1 1))
-			       (HttpResponse "json" "{\"response\": \"success\", \"message\": \"Start drone\"}")))
+(route-register "/api/config" (lambda (env)
+				(send-commands (create-altitudemax-command 2))
+				(HttpResponse "json" "{\"response\": \"success\", \"message\": \"Configuration drone\"}")))
 
-(route-register "/api/left" (lambda (env)
-			       ;(sendTo '#u8(1 1 1 1))
-			       (HttpResponse "json" "{\"response\": \"success\", \"message\": \"To left\"}")))
+(route-register "/api/rotate-left" (lambda (env)
+				     (send-commands (create-pcmd command/pcmd/Rleft 0.5))
+				     (HttpResponse "json" "{\"response\": \"success\", \"message\": \"To left\"}")))
 
-(route-register "/api/right" (lambda (env)
-			       ;(sendTo '#u8(1 1 1 1))
-			       (HttpResponse "json" "{\"response\": \"success\", \"message\": \"To right\"}")))
+(route-register "/api/rotate-right" (lambda (env)
+				      (send-commands (create-pcmd command/pcmd/Rright 0.5))
+				      (HttpResponse "json" "{\"response\": \"success\", \"message\": \"To right\"}")))
+
+(route-register "/api/takeoff" (lambda (env)
+				(send-commands (create-action command/action/takeoff))
+				(HttpResponse "json" "{\"response\": \"success\", \"message\": \"Drone take off\"}")))
+(route-register "/api/landing" (lambda (env)
+				(send-commands (create-action command/action/landing))
+				(HttpResponse "json" "{\"response\": \"success\", \"message\": \"Drone landing\"}")))
 
 (sack-start!
  (lambda (env)

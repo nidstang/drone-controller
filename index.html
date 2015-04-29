@@ -9,9 +9,9 @@
 		var ajax = new AjaxHelper('http://localhost:3005/api/');
 
 		$(document).on('ready', function(event) {
-			$('#start-button').on('click', function(event) {
+			$('#config-button').on('click', function(event) {
 				event.preventDefault();
-				ajax.get('start', function() {
+				ajax.get('config', function() {
 					//Nothing for this time
 				},
 				function(response) {
@@ -20,9 +20,9 @@
 				});
 			});
 
-			$('#left-button').on('click', function(event) {
+			$('#rleft-button').on('click', function(event) {
 				event.preventDefault();
-				ajax.get('left', function() {
+				ajax.get('rotate-left', function() {
 					//Nothing for this time
 				},
 				function(response) {
@@ -31,9 +31,9 @@
 				});
 			});
 
-			$('#right-button').on('click', function(event) {
+			$('#rright-button').on('click', function(event) {
 				event.preventDefault();
-				ajax.get('right', function() {
+				ajax.get('rotate-right', function() {
 					//Nothing for this time
 				},
 				function(response) {
@@ -45,9 +45,16 @@
 	</script>
 </head>
 <body>
-	<button id='start-button'>START</button>
-	<button id='left-button'>LEFT</button>
-	<button id='right-button'>RIGHT</button>
+	<fieldset>
+		<legend>Configuration (first time)</legend>
+		<button id='config-button'>SET ALTITUDE MAX: 2M</button>
+	</fieldset>
+	<fieldset>
+		<legend>Control</legend>
+		<button id='rleft-button'>ROTATE LEFT</button>
+		<button id='rright-button'>ROTATE RIGHT</button>
+	</fieldset>
+	
 	<div id='events-sections'>
 
 	</div>
